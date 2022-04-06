@@ -10,8 +10,8 @@
     </td>
   </form>
 
-  <form method="post" action="{% url 'delete' language.pk %}"
-        id="delete-{{ language.pk }}">
+  <form action="{% url 'delete' language.pk %}"
+        method="post" id="delete-{{ language.pk }}">
     {% csrf_token %}
   </form>
 
