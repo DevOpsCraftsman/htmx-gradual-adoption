@@ -1,6 +1,6 @@
 <tr>
-  <form method="post"
-        action="{% url 'create' %}">
+  <form hx-target="tbody" hx-select="tbody"
+        hx-post="{% url 'create' %}">
     {% csrf_token %}
     <td>{{ form.name }}</td>
     <td>{{ form.good }}</td>

@@ -1,7 +1,7 @@
 <tr>
 
-  <form method="post"
-        action="{% url 'update' language.pk %}">
+  <form hx-target="tbody" hx-select="tbody"
+        hx-post="{% url 'update' language.pk %}">
     {% csrf_token %}
     <td>{{ form.name }}</td>
     <td>{{ form.good }}</td>
@@ -12,8 +12,8 @@
   </form>
 
   <form id="delete-{{ language.pk }}"
-        method="post"
-        action="{% url 'delete' language.pk %}">
+        hx-target="tbody" hx-select="tbody"
+        hx-post="{% url 'delete' language.pk %}">
     {% csrf_token %}
   </form>
 
