@@ -9,4 +9,4 @@ Check that you have `Django` installed, then:
 ### The commits
 
 #### Integration of htmx
-4df851d24e55bd0730b1b2110f8ec27f4abf1f94
+The commit diff [here](https://github.com/yahya-abou-imran/htmx-gradual-adoption/commit/4df851d24e55bd0730b1b2110f8ec27f4abf1f94)
