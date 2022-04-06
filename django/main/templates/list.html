@@ -1,0 +1,25 @@
+<h1>Programming Languages</h1>
+
+<table>
+
+  <thead>
+    <tr>
+      <td>Name</td>
+      <td>Good?</td>
+      <td>Actions</td>
+    </tr>
+  </thead>
+
+  <tbody>
+
+    {% for language in language_list %}
+      {% with form=language.get_form %}
+        {% include 'update.html' %}
+      {% endwith %}
+    {% endfor %}
+
+    {% include "add.html" %}
+
+  </tbody>
+
+</table>

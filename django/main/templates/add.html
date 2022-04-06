@@ -1,0 +1,10 @@
+<tr>
+  <form method="post" action="{% url 'create' %}">
+    {% csrf_token %}
+    <td>{{ form.name }}</td>
+    <td>{{ form.good }}</td>
+    <td>
+      <button>Add</button>
+    </td>
+  </form>
+</tr>
