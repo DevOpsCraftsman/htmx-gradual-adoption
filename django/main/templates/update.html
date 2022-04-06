@@ -1,6 +1,7 @@
 <tr>
 
-  <form method="post" action="{% url 'update' language.pk %}">
+  <form method="post"
+        action="{% url 'update' language.pk %}">
     {% csrf_token %}
     <td>{{ form.name }}</td>
     <td>{{ form.good }}</td>
@@ -10,8 +11,9 @@
     </td>
   </form>
 
-  <form action="{% url 'delete' language.pk %}"
-        method="post" id="delete-{{ language.pk }}">
+  <form id="delete-{{ language.pk }}"
+        method="post"
+        action="{% url 'delete' language.pk %}">
     {% csrf_token %}
   </form>
 
