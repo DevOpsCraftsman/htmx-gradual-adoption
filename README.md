@@ -7,9 +7,9 @@ amount of time.
 Another goal is to prove for not-so-convinced people by htmx that it is very easy
 to integrate in almost any project, with a very minimal amount of effort.
 
-In this README, we are taking about generic aspects that can be adapted on any
+In this README, we are taking about generic aspects that can be adapted to any
 framework.  
-But we find also sample projects for several well-know frameworks.  
+But you will also find sample projects for several well-know frameworks.  
 
 Actually available:
 
