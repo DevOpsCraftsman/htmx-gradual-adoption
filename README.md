@@ -62,7 +62,10 @@ content at the center of the page.
 As for `/process` it may just change something in the database related to the
 current content, then redirect to the current with details updated.
 
-The steps are very simple:
+
+#### Full migration solution
+
+If you want to switch to htmx completely, the steps are very simple:
 1. Include the htmx CDN
 2. Use htmx to perform the GET and the POST:
     - Replace `href` by `hx-get` 
@@ -85,6 +88,33 @@ The steps are very simple:
 ```
 
 
+#### Accessibility, Progressive Enhancement
+
+If you want to support browsers where JS is not enable, or you want to let
+screen readers use natural attributes, you can let the original attributes
+alongside the htmx ones:
+
+```html
+<a href="/elsewhere"
+   hx-get="/elsewhere"
+   hx-target="#content-detail"
+   hx-select="#content-detail">
+  See Other!
+</a>
+
+<form method="post"
+      action="/process"
+      hx-post="/process"
+      hx-target=".content-wrapper"
+      hx-select=".content-wrapper">
+  <button>Let’s do it!</button>
+</form>
+```
+
+But it means that you have to handle in the backend end both standards requests
+and htmx ones…  
+This is the goal of the next section.
+
 #### Refactoring the backend
 
 Of course, there is a performance issue, because, in the backend side, we are
@@ -94,7 +124,7 @@ to render.
 If we can do that, we can drop the `hx-select` that becomes of course superfluous.
 
 In another hand, we may have a handful cases where we always want to make a real
-HTTP redirection and render a full page for some reasons.  
+HTTP redirection and render a full page for some reasons (like in the previous section).  
 So, if we could tell in advance if the request has been done through htmx or not,
 it will be more easy to handle the two cases in our backend.
 
@@ -116,16 +146,22 @@ representing controllers with classes, you can easily write some kind of mixin
 ```python
 class HtmxMixin:
 
+    template: str = ""
     template_fragment: str = ""
 
     def is_htmx_request(self) -> bool:
-        return (self.request.get_header("HX-Request") == "true")
+        if self.request.get_header("HX-Request") == "true":
+            return True
+        else:
+            return False
 
     def process_request(self):
         if not self.is_htmx_request():
+            # this should do a `self.render(self.template)`
             return super().process_request()
-        self.process_htmx_request()
-        return self.render(self.template_fragment)
+        else:
+            self.process_htmx_request()
+            return self.render(self.template_fragment)
 
     @abstract
     def process_htmx_request(self):
@@ -133,31 +169,4 @@ class HtmxMixin:
 ```
 
 Of course, `process_request` and `render` are only examples, and you have to 
-adapt it to your framwork.
-
-
-#### Accessibilty, Progressive degression
-
-If you want to support browsers where JS is not enable, or you want to let
-screen readers use natural attributes, you can let the original attributes 
-alongside the htmx ones:
-
-```html
-<a href="/elsewhere"
-   hx-get="/elsewhere"
-   hx-target="#content-detail"
-   hx-select="#content-detail">
-  See Other!
-</a>
-
-<form method="post"
-      action="/process"
-      hx-post="/process"
-      hx-target=".content-wrapper"
-      hx-select=".content-wrapper">
-  <button>Let’s do it!</button>
-</form>
-```
-
-But it means that you have to handle in the backend end both standards requests
-and htmx ones… (See)
+adapt it to your framework.
